@@ -65,29 +65,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public T getFirst() {
-        if (isEmpty()) {
-            return null;
-        }
-        return items[0];
-    }
-
-    @Override
-    public T getLast() {
-        if (isEmpty()) {
-            return null;
-        }
-        return items[size - 1];
-    }
-
-    @Override
     public int size() {
         return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     private class ArrayDequeIterator implements Iterator<T> {

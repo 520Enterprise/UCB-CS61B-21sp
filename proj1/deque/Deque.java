@@ -11,13 +11,11 @@ public interface Deque<T> {
 
     public T removeLast();
 
-    public T getFirst();
-
-    public T getLast();
-
     public int size();
 
-    public boolean isEmpty();
+    default public boolean isEmpty() {
+        return size() == 0;
+    }
 
     public Iterator<T> iterator();
 

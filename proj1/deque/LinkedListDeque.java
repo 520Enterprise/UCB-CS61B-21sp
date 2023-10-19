@@ -23,31 +23,12 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
 
     @Override
     public int size() {
         return size;
     }
 
-    @Override
-    public T getFirst() {
-        if (isEmpty()) {
-            return null;
-        }
-        return sentinel.next.item;
-    }
-
-    @Override
-    public T getLast() {
-        if (isEmpty()) {
-            return null;
-        }
-        return sentinel.prev.item;
-    }
 
     @Override
     public void addFirst(T item) {
