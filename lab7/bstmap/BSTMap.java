@@ -1,7 +1,5 @@
 package bstmap;
 
-import edu.neu.ccs.quick.Pair;
-
 import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.Iterator;
@@ -11,7 +9,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private Node root;             // root of BST
 
     private class Node {
-        private K key;           // sorted by key
+        private final K key;           // sorted by key
         private V val;         // associated data
         private Node left, right;  // left and right subtrees
         private int size;          // number of nodes in subtree
@@ -35,8 +33,8 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
 
     private class ReturnValue {
-        private boolean found;
-        private Node node;
+        private final boolean found;
+        private final Node node;
 
         public ReturnValue(boolean found,@Nullable Node node) {
             this.found = found;
@@ -117,26 +115,20 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
 
     /* An iterator class for BSTMap. */
-    //TODO: Implement the BSTMapIterator class here!
     private class BSTMapIterator implements Iterator<K> {
-        private Node curr;
-        private int index;
+        private final Iterator<K> iterator;
 
         public BSTMapIterator() {
-            curr = root;
-            index = 0;
+            Set<K> keySet = keySet();
+            iterator = keySet.iterator();
         }
 
         public boolean hasNext() {
-            return index < size();
+            return iterator.hasNext();
         }
 
         public K next() {
-            if (!hasNext()) {
-                throw new IllegalArgumentException("No next element");
-            }
-            index++;
-            return null;
+            return iterator.next();
         }
     }
 
@@ -157,26 +149,82 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         printInOrder(root);
     }
 
-    /* Returns a Set view of the keys contained in this map. Not required for Lab 7.
-     * If you don't implement this, throw an UnsupportedOperationException. */
+    private Set<K> keySet(Node x, Set<K> set) {
+        if (x == null) {
+            return set;
+        }
+        set.add(x.key);
+        keySet(x.left, set);
+        keySet(x.right, set);
+        return set;
+    }
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> set = new java.util.HashSet<>();
+        return keySet(root, set);
     }
 
-    /* Removes the mapping for the specified key from this map if present.
-     * Not required for Lab 7. If you don't implement this, throw an
-     * UnsupportedOperationException. */
+    private Node max(Node x) {
+        if (x.right == null) {
+            return x;
+        } else return max(x.right);
+    }
+    private Node removeMax(Node x) {
+        if (x.right == null) {
+            return x.left;
+        } else {
+            x.right = removeMax(x.right);
+            x.size = 1 + size(x.left) + size(x.right);
+            return x;
+        }
+    }
+    private Node remove(Node x, K key) {
+        if (x == null) {
+            return null;
+        }
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) {
+            x.left = remove(x.left, key);
+        } else if (cmp > 0) {
+            x.right = remove(x.right, key);
+        } else {
+            if (x.left == null) {
+                return x.right;
+            } else if (x.right == null) {
+                return x.left;
+            } else {
+                Node temp = x;
+                x = max(temp.left);
+                x.left = removeMax(temp.left);
+                x.right = temp.right;
+            }
+        }
+        x.size = 1 + size(x.left) + size(x.right);
+        return x;
+    }
+
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        if (key == null) {
+            throw new IllegalArgumentException("calls remove() with a null key");
+        }
+        if (!containsKey(key)) {
+            return null;
+        }
+        V value = get(key);
+        root = remove(root, key);
+        return value;
     }
 
-    /* Removes the entry for the specified key only if it is currently mapped to
-     * the specified value. Not required for Lab 7. If you don't implement this,
-     * throw an UnsupportedOperationException.*/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (key == null) {
+            throw new IllegalArgumentException("calls remove() with a null key");
+        }
+        if (!containsKey(key) || !get(key).equals(value)) {
+            return null;
+        }
+        root = remove(root, key);
+        return value;
     }
 }
