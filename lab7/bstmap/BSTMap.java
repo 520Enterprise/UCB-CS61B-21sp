@@ -1,6 +1,5 @@
 package bstmap;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.Iterator;
 
@@ -23,7 +22,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         }
     }
 
-    BSTMap() {
+    public BSTMap() {
         root = null;
     }
 
@@ -36,7 +35,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         private final boolean found;
         private final Node node;
 
-        public ReturnValue(boolean found,@Nullable Node node) {
+        public ReturnValue(boolean found, Node node) {
             this.found = found;
             this.node = node;
         }
