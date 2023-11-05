@@ -25,6 +25,15 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             key = k;
             value = v;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof MyHashMap.Node)) {
+                return false;
+            }
+            MyHashMap.Node other = (MyHashMap.Node) o;
+            return key.equals(other.key) && value.equals(other.value);
+        }
     }
 
     /* Instance Variables */
@@ -203,12 +212,31 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException("remove(key) not supported");
+        if (key == null) {
+            throw new IllegalArgumentException("argument to remove() is null");
+        }
+        if (!containsKey(key)) {
+            return null;
+        }
+        V value = get(key);
+        int index = hash(key);
+        buckets[index].remove(createNode(key, value));
+        itemSize -= 1;
+        return value;
     }
 
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException("remove(key, value) not supported");
+        if (key == null) {
+            throw new IllegalArgumentException("argument to remove() is null");
+        }
+        if (!containsKey(key) || !get(key).equals(value)) {
+            return null;
+        }
+        int index = hash(key);
+        buckets[index].remove(createNode(key, value));
+        itemSize -= 1;
+        return value;
     }
 
     protected class MyHashMapIterator implements Iterator<K> {

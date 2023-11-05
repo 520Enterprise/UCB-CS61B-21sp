@@ -68,3 +68,22 @@ public class testPeople {
 }
 ```
 
+
+
+# Lab8
+
+注意 `instanceof ` 不能直接用于泛型判断，使用以下的代码解决问题
+
+```java
+@Override
+public boolean equals(Object o) {
+    if (!(o instanceof MyHashMap.Node)) {
+        return false;
+    }
+    MyHashMap.Node other = (MyHashMap.Node) o;
+    return key.equals(other.key) && value.equals(other.value);
+}
+```
+
+
+

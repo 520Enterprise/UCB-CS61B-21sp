@@ -1,0 +1,45 @@
+Enter # strings to insert into hashmap.ULLMap: Hello
+Please enter a positive integer: 40000
+--Stack Overflow -- couldn't add 40000 strings of length 100.
+
+Enter # strings to insert into your hashmap.MyHashMap: Hello
+Please enter a positive integer: 500000
+class hashmap.MyHashMap: 0.75 sec
+
+Enter # strings to insert into Java's HashMap: Hello
+Please enter a positive integer: 500000
+Java's Built-in HashMap: 0.74 sec
+
+
+
+------------------------------------------------------------
+
+
+
+Enter # strings to insert into hashmap.ULLMap: Hello
+Please enter a positive integer: 10000
+class hashmap.ULLMap: 1.54 sec
+
+Enter # strings to insert into your hashmap.MyHashMap: Hello
+Please enter a positive integer: 10000
+class hashmap.MyHashMap: 1.02 sec
+
+Enter # strings to insert into Java's HashMap: Hello
+Please enter a positive integer: 10000
+Java's Built-in HashMap: 1.15 sec
+
+
+
+------------------------------------------------------------
+
+
+
+Enter # strings to insert into each map: Helllllllo
+Please enter a positive integer: 100000
+class hashmap.MyHashMapALBuckets: 9.88 sec
+class hashmap.MyHashMapLLBuckets: 10.48 sec
+class hashmap.MyHashMapTSBuckets: 10.43 sec
+class hashmap.MyHashMapHSBuckets: 10.61 sec
+class hashmap.MyHashMapPQBuckets: 10.25 sec
+
+Would you like to try more timed-tests? (y/n)
