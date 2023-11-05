@@ -25,15 +25,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             key = k;
             value = v;
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof MyHashMap.Node)) {
-                return false;
-            }
-            MyHashMap.Node other = (MyHashMap.Node) o;
-            return key.equals(other.key) && value.equals(other.value);
-        }
     }
 
     /* Instance Variables */
@@ -218,10 +209,16 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         if (!containsKey(key)) {
             return null;
         }
-        V value = get(key);
         int index = hash(key);
-        buckets[index].remove(createNode(key, value));
-        itemSize -= 1;
+        V value = null;
+        for (Node node : buckets[index]) {
+            if (node.key.equals(key)) {
+                value = node.value;
+                buckets[index].remove(node);
+                itemSize -= 1;
+                break;
+            }
+        }
         return value;
     }
 
@@ -233,13 +230,10 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         if (!containsKey(key) || !get(key).equals(value)) {
             return null;
         }
-        int index = hash(key);
-        buckets[index].remove(createNode(key, value));
-        itemSize -= 1;
-        return value;
+        return remove(key);
     }
 
-    protected class MyHashMapIterator implements Iterator<K> {
+    private class MyHashMapIterator implements Iterator<K> {
         private int bucketIndex;
         private int itemIndex;
         private Iterator<Node> bucketIterator;
